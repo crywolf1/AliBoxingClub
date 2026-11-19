@@ -5,7 +5,7 @@
   "description": "Ali Boxing Club website with a MongoDB-backed local API",
   "scripts": {
     "start": "node --env-file-if-exists=.env server.js",
-    "check": "node --check app.js && node --check server.js && node --check athlete-dashboard.js && node --check coach.js && node --check booking.js"
+    "check": "node --check app.js && node --check server.js && node --check \"api/[...path].js\" && node --check athlete-dashboard.js && node --check coach.js && node --check booking.js"
   },
   "dependencies": {
     "mongodb": "^6.17.0"

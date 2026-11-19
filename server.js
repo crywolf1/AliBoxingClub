@@ -1,6 +1,3 @@
-const dns = require("node:dns");
-dns.setServers(["1.1.1.1", "1.0.0.1"]);
-
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -70,6 +67,16 @@ function sendJson(response, status, value) {
 }
 
 function readJson(request) {
+  if (request.body !== undefined) {
+    if (request.body && typeof request.body === "object" && !Buffer.isBuffer(request.body)) {
+      return Promise.resolve(request.body);
+    }
+    try {
+      return Promise.resolve(request.body ? JSON.parse(String(request.body)) : {});
+    } catch {
+      return Promise.reject(Object.assign(new Error("Request body must be valid JSON."), { status: 400 }));
+    }
+  }
   return new Promise((resolve, reject) => {
     let body = "";
     request.on("data", (chunk) => {
@@ -1123,14 +1130,7 @@ function serveStatic(request, response) {
   });
 }
 
-async function start() {
-  if (!mongoUri) {
-    throw new Error("MONGODB_URI is missing. Copy .env.example to .env and set your MongoDB connection string.");
-  }
-
-  const client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 5000 });
-  await client.connect();
-  const db = client.db(databaseName);
+async function initializeDatabase(db) {
   const athleteCollection = db.collection("athletes");
   const legacyAthletes = await athleteCollection.find({
     phoneNormalized: { $exists: false },
@@ -1201,6 +1201,17 @@ async function start() {
   );
   await expireSubscriptions(db);
   await syncSubscriptionCounts(db);
+}
+
+async function start() {
+  if (!mongoUri) {
+    throw new Error("MONGODB_URI is missing. Copy .env.example to .env and set your MongoDB connection string.");
+  }
+
+  const client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 5000 });
+  await client.connect();
+  const db = client.db(databaseName);
+  await initializeDatabase(db);
 
   const server = http.createServer((request, response) => {
     if (request.url.startsWith("/api/")) {
@@ -1228,7 +1239,47 @@ async function start() {
   process.on("SIGTERM", shutdown);
 }
 
-start().catch((error) => {
-  console.error(`Unable to start Ali Boxing Club: ${error.message}`);
-  process.exitCode = 1;
-});
+let vercelDbPromise;
+
+async function getVercelDatabase() {
+  if (!mongoUri) {
+    throw new Error("MONGODB_URI is not configured.");
+  }
+  if (!vercelDbPromise) {
+    const client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 5000 });
+    vercelDbPromise = client.connect()
+      .then(async () => {
+        const db = client.db(databaseName);
+        await initializeDatabase(db);
+        return db;
+      })
+      .catch((error) => {
+        vercelDbPromise = null;
+        throw error;
+      });
+  }
+  return vercelDbPromise;
+}
+
+async function handleVercelRequest(request, response) {
+  try {
+    const db = await getVercelDatabase();
+    await handleApi(request, response, db);
+  } catch (error) {
+    console.error("API request failed:", error);
+    if (!response.headersSent) {
+      sendJson(response, error.status || 500, {
+        error: error.status ? error.message : "The request could not be completed.",
+      });
+    }
+  }
+}
+
+module.exports = { handleVercelRequest };
+
+if (require.main === module) {
+  start().catch((error) => {
+    console.error(`Unable to start Ali Boxing Club: ${error.message}`);
+    process.exitCode = 1;
+  });
+}
