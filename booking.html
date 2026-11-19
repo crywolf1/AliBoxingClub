@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101311" />
+    <meta
+      name="description"
+      content="انتخاب و رزرو اشتراک یک‌ماهه عمومی یا VIP در باشگاه بوکس علی."
+    />
+    <title>رزرو اشتراک | Ali Boxing Club</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/booking.js" defer></script>
+  </head>
+  <body class="booking-page">
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span class="brand-name">ALI<span> BOXING CLUB</span></span>
+      </a>
+      <div class="header-actions">
+        <button
+          class="language-switch"
+          id="booking-language"
+          type="button"
+          aria-label="Switch language"
+        >
+          EN
+        </button>
+        <a
+          class="button button-small button-outline"
+          id="booking-back"
+          href="/dashboard"
+          data-fa="بازگشت به داشبورد"
+          data-en="Back to dashboard"
+          >بازگشت به داشبورد</a
+        >
+      </div>
+    </header>
+
+    <main class="booking-main">
+      <section class="booking-intro">
+        <p class="eyebrow">
+          <span class="live-dot"></span
+          ><span data-fa="اشتراک یک‌ماهه" data-en="ONE-MONTH SUBSCRIPTION"
+            >اشتراک یک‌ماهه</span
+          >
+        </p>
+        <h1
+          data-fa="برنامه تمرینت را<br><em>انتخاب کن.</em>"
+          data-en="Choose your<br><em>training plan.</em>"
+        >
+          برنامه تمرینت را<br /><em>انتخاب کن.</em>
+        </h1>
+        <p
+          data-fa="اشتراک هر دو گزینه ۳۰ روزه است؛ تفاوت قیمت به نوع تمرین برمی‌گردد."
+          data-en="Both options last 30 days. The price depends on the training plan."
+        >
+          اشتراک هر دو گزینه ۳۰ روزه است؛ تفاوت قیمت به نوع تمرین برمی‌گردد.
+        </p>
+      </section>
+
+      <p
+        class="booking-status"
+        id="booking-status"
+        role="status"
+        aria-live="polite"
+        data-fa="در حال بارگذاری برنامه‌ها…"
+        data-en="Loading plans…"
+      >
+        در حال بارگذاری برنامه‌ها…
+      </p>
+      <section
+        class="booking-plans"
+        id="booking-plans"
+        aria-label="Subscription plans"
+        aria-live="polite"
+      ></section>
+
+      <section class="booking-login hidden" id="booking-login">
+        <p
+          data-fa="برای رزرو اشتراک ابتدا وارد حساب ورزشکارت شو."
+          data-en="Sign in to your athlete account before booking a subscription."
+        >
+          برای رزرو اشتراک ابتدا وارد حساب ورزشکارت شو.
+        </p>
+        <a
+          class="button button-primary"
+          href="/?signin=1&return=%2Fbooking"
+          data-fa="ورود به حساب"
+          data-en="Sign in"
+          >ورود به حساب</a
+        >
+      </section>
+    </main>
+
+    <dialog
+      class="app-dialog booking-confirm-dialog"
+      id="booking-confirm-dialog"
+      aria-labelledby="booking-confirm-title"
+    >
+      <button
+        class="dialog-close"
+        id="booking-dialog-close"
+        type="button"
+        aria-label="بستن"
+      >
+        ×
+      </button>
+      <div class="dialog-content">
+        <p
+          class="eyebrow dialog-eyebrow"
+          data-fa="تأیید اشتراک"
+          data-en="CONFIRM SUBSCRIPTION"
+        >
+          تأیید اشتراک
+        </p>
+        <h2 id="booking-confirm-title"></h2>
+        <p class="dialog-help" id="booking-confirm-description"></p>
+        <p
+          class="security-note"
+          data-fa="در این نسخه پرداخت واقعی انجام نمی‌شود."
+          data-en="No real payment is processed in this version."
+        >
+          در این نسخه پرداخت واقعی انجام نمی‌شود.
+        </p>
+        <p class="booking-feedback" id="booking-feedback" role="alert"></p>
+        <div class="payment-actions">
+          <button
+            class="button button-outline"
+            id="booking-cancel"
+            type="button"
+            data-fa="انصراف"
+            data-en="Cancel"
+          >
+            انصراف
+          </button>
+          <button
+            class="button button-primary"
+            id="booking-confirm"
+            type="button"
+            data-fa="تأیید اشتراک"
+            data-en="Confirm subscription"
+          >
+            تأیید اشتراک
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <footer class="site-footer section-wrap">
+      <a class="brand" href="/" aria-label="Ali Boxing Club"
+        ><span class="brand-mark" aria-hidden="true">A</span
+        ><span class="brand-name">ALI<span> BOXING CLUB</span></span></a
+      >
+      <span>© <span id="booking-year"></span> ALI BOXING CLUB</span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,695 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  color-scheme: dark;
+  --bg: #171c19;
+  --bg-soft: #202723;
+  --surface: #29332e;
+  --surface-light: #35413a;
+  --ink: #f1f5f1;
+  --muted: #b6c1b9;
+  --line: #414d45;
+  --accent: #8fbd9d;
+  --accent-dark: #5d8069;
+  --blue: #7898b7;
+  --green-deep: #3b5a48;
+  --danger: #71879a;
+  --font: "Vazirmatn", "DM Sans", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.7; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button { color: inherit; }
+::selection { color: var(--bg); background: var(--accent); }
+.section-wrap { width: min(1180px, calc(100% - 64px)); margin-inline: auto; }
+.booking-main { width: min(1040px, calc(100% - 48px)); min-height: calc(100vh - 170px); margin: 0 auto; padding: 66px 0 80px; }
+.booking-intro { max-width: 680px; margin-bottom: 34px; }
+.booking-intro h1 { margin: 18px 0 12px; font-size: clamp(42px, 7vw, 66px); font-weight: 900; line-height: 1.25; }
+.booking-intro > p:last-child { color: var(--muted); }
+.booking-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 18px; }
+.booking-status { grid-column: 1 / -1; margin: 0; padding: 15px 18px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
+.booking-plan-card { display: flex; min-width: 0; flex-direction: column; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: linear-gradient(145deg, #242d28, #1d2420); box-shadow: 0 14px 40px rgba(0,0,0,.12); }
+.booking-plan-vip { border-color: rgba(229,189,79,.45); background: linear-gradient(145deg, rgba(213,170,54,.12), #202723 68%); }
+.booking-plan-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.booking-plan-type, .booking-plan-duration { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--accent); font-size: 10px; font-weight: 700; }
+.booking-plan-vip .booking-plan-type { border-color: rgba(229,189,79,.55); color: #f0d071; }
+.booking-plan-duration { color: var(--muted); }
+.booking-plan-card h2 { margin: 20px 0 6px; font-size: 21px; }
+.booking-plan-description { min-height: 48px; margin-bottom: 16px; color: var(--muted); font-size: 12px; }
+.booking-plan-price { display: grid; gap: 2px; padding: 15px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.booking-plan-price strong { color: var(--ink); font-size: 23px; }
+.booking-plan-vip .booking-plan-price strong { color: #f0d071; }
+.booking-plan-price span { color: var(--muted); font-size: 10px; }
+.booking-plan-details { display: grid; gap: 8px; margin: 17px 0 20px; padding: 0; color: #d3ddd5; font-size: 11px; list-style: none; }
+.booking-plan-details li::before { margin-inline-end: 8px; color: var(--accent); content: "✓"; }
+.booking-plan-vip .booking-plan-details li::before { color: #e5bd4f; }
+.booking-active-status { display: grid; gap: 3px; margin: auto 0 12px; padding: 10px 12px; border: 1px solid rgba(56,150,96,.45); border-radius: 7px; background: rgba(56,150,96,.1); color: #69c489; font-size: 11px; }
+.booking-active-status span { color: var(--muted); font-size: 10px; }
+.booking-plan-button { width: 100%; margin-top: auto; }
+.booking-plan-button:disabled { cursor: not-allowed; opacity: .58; transform: none; }
+.booking-login { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 18px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg-soft); }
+.booking-login p { margin: 0; color: var(--muted); font-size: 12px; }
+.booking-confirm-dialog { width: min(520px, calc(100% - 30px)); }
+.booking-feedback { min-height: 0; color: #d34f52; font-size: 11px; }
+.booking-feedback:empty { display: none; }
+.site-header { position: sticky; z-index: 20; top: 0; display: flex; align-items: center; justify-content: space-between; min-height: 78px; padding: 0 max(32px, calc((100% - 1180px) / 2)); border-bottom: 1px solid rgba(255,255,255,.09); background: rgba(23,28,25,.95); backdrop-filter: blur(16px); }
+.brand { display: inline-flex; gap: 10px; align-items: center; direction: ltr; }
+.brand-mark { position: relative; display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: var(--bg); font-family: "DM Sans", sans-serif; font-size: 21px; font-weight: 800; }
+.brand-mark::after { position: absolute; inset: 4px; border: 1px solid var(--bg); border-radius: 2px; content: ""; opacity: .45; }
+.brand-name { font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 800; letter-spacing: 1.3px; white-space: nowrap; }
+.brand-name span { color: var(--accent); }
+.main-nav { display: flex; gap: 33px; color: #d0d8d1; font-size: 13px; }
+.main-nav a { transition: color .2s; }
+.main-nav a:hover, .admin-link:hover { color: var(--accent); }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.language-switch { width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 700; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; padding: 0 22px; border: 0; cursor: pointer; font-weight: 700; transition: background .2s, color .2s, transform .2s; }
+.button:hover { transform: translateY(-2px); }
+.button-primary { background: linear-gradient(110deg, #467657, #466b88); color: #f7faf8; }
+.button-primary:hover { background: linear-gradient(110deg, #568b68, #557a98); }
+.button-outline { border: 1px solid #66666d; background: transparent; color: var(--ink); }
+.button-outline:hover { border-color: var(--accent); color: var(--accent); }
+.button-small { min-height: 40px; padding-inline: 16px; font-size: 12px; }
+.button-light { background: var(--ink); color: var(--bg); }
+.button-light:hover { background: var(--accent); }
+.hero { position: relative; display: grid; grid-template-columns: 1fr .95fr; align-items: center; min-height: 650px; padding-block: 74px 68px; }
+.hero-copy { position: relative; z-index: 2; padding-inline-end: 35px; }
+.eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--accent); font-family: "DM Sans", var(--font); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; }
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(143,189,157,.55); }
+h1, h2, h3, p { margin-top: 0; }
+.hero h1 { margin: 21px 0 15px; font-size: clamp(54px, 7vw, 88px); font-weight: 900; line-height: 1.23; letter-spacing: -3.2px; }
+h1 em, h2 em { color: var(--accent); font-style: normal; }
+.hero-description { max-width: 425px; margin-bottom: 27px; color: var(--muted); font-size: 15px; }
+.hero-actions { display: flex; align-items: center; gap: 23px; flex-wrap: wrap; }
+.text-button { display: inline-flex; align-items: center; gap: 12px; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; font-size: 13px; font-weight: 600; }
+.text-button:hover { color: var(--accent); }
+.hero-proof { display: flex; align-items: center; gap: 14px; margin-top: 54px; }
+.avatar-stack { display: flex; direction: ltr; }
+.avatar-stack span { display: grid; width: 32px; height: 32px; margin-left: -8px; place-items: center; border: 2px solid var(--bg); border-radius: 50%; background: #59645d; color: white; font-size: 10px; }
+.avatar-stack span:nth-child(2) { background: var(--blue); }.avatar-stack span:nth-child(3) { background: var(--green-deep); }.avatar-stack span:nth-child(4) { background: var(--accent-dark); color: white; }
+.hero-proof p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.hero-proof strong { color: var(--ink); font-size: 12px; }
+.hero-visual { position: relative; min-height: 490px; }
+.photo-frame { position: absolute; inset: 0 24px 23px 42px; overflow: hidden; background: #393a32 url("https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=1200&q=85") center 35%/cover no-repeat; }
+.photo-frame::after { position: absolute; inset: 0; background: linear-gradient(180deg,rgba(8,10,8,.04) 20%,rgba(8,10,8,.1) 50%,rgba(8,10,8,.8) 100%),linear-gradient(90deg,rgba(8,10,8,.12),transparent 60%); content: ""; }
+.photo-overlay { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.12); }
+.photo-label { position: absolute; z-index: 2; right: 24px; bottom: 20px; display: flex; gap: 13px; align-items: center; font-size: 13px; font-weight: 700; }
+.label-number { color: var(--accent); font-family: "DM Sans",sans-serif; font-size: 11px; }
+.round-stamp { position: absolute; z-index: 3; top: 35px; left: 0; display: flex; width: 91px; height: 91px; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: linear-gradient(145deg, #456c51, #385c50); color: var(--ink); transform: rotate(-12deg); }
+.round-stamp span { font-size: 9px; font-weight: 700; }.round-stamp strong { font-family: "DM Sans",sans-serif; font-size: 27px; line-height: 1.05; }
+.hero-caption { position: absolute; right: 0; bottom: -7px; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 10px; }
+.caption-line { width: 23px; height: 1px; background: var(--accent); }
+.vertical-note { position: absolute; top: 48%; left: -52px; color: #747b73; direction: ltr; font-family: "DM Sans",sans-serif; font-size: 9px; letter-spacing: 2px; transform: rotate(-90deg); }
+.ticker { overflow: hidden; border-block: 1px solid #39443d; background: #1b211d; }
+.ticker-track { display: flex; width: max-content; align-items: center; gap: 29px; padding-block: 12px; color: #d0d8d1; direction: ltr; font-family: "DM Sans",var(--font); font-size: 10px; font-weight: 700; letter-spacing: 2px; white-space: nowrap; animation: ticker 38s linear infinite; }
+.ticker-track b { color: var(--accent); font-size: 13px; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+.classes-section { padding-block: 110px 120px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 37px; }
+.section-kicker { gap: 12px; margin-bottom: 15px; color: var(--muted); letter-spacing: 1.4px; }
+.section-kicker span:first-child { color: var(--accent); }
+.section-heading h2, .performance-copy h2, .fight-copy h2 { margin: 0; font-size: clamp(38px, 5vw, 58px); font-weight: 900; line-height: 1.33; letter-spacing: -1.5px; }
+.section-intro { max-width: 405px; margin: 0 0 5px; color: var(--muted); font-size: 13px; }
+.filter-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.filter-tabs { display: flex; gap: 6px; }
+.filter-tab { padding: 8px 17px; border: 1px solid var(--line); background: none; color: var(--muted); cursor: pointer; font-size: 12px; }
+.filter-tab.active, .filter-tab:hover { border-color: var(--accent-dark); background: #3a5545; color: #f4f8f4; }
+.availability-note { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+.class-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.class-card { position: relative; min-height: 284px; padding: 23px; border: 1px solid var(--line); background: linear-gradient(145deg, #252e29, #202723); transition: border-color .2s, transform .2s; }
+.class-card:hover { border-color: #718b77; transform: translateY(-3px); }
+.class-card-top { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+.class-type { padding: 3px 9px; background: #29292e; color: var(--accent); font-family: "DM Sans",var(--font); font-size: 9px; font-weight: 700; letter-spacing: .8px; }
+.class-type-public { background: rgba(102,132,165,.16); color: #a3bad2; }
+.class-type-vip { background: rgba(79,112,101,.22); color: #a6c0b3; }
+.class-card h3 { margin: 19px 0 5px; font-size: 20px; }
+.class-card .class-description { min-height: 43px; margin-bottom: 20px; color: var(--muted); font-size: 11px; }
+.class-info { display: flex; justify-content: space-between; gap: 10px; padding-block: 13px; border-block: 1px solid var(--line); color: #d0d5cc; font-size: 11px; }
+.class-info span { display: inline-flex; gap: 6px; align-items: center; }
+.class-info b { color: var(--accent); font-weight: 600; }
+.class-schedule-days { min-height: 48px; margin: 0 0 12px; color: #d7dfd8; font-size: 11px; line-height: 1.8; }
+.class-schedule-days small, .class-schedule-time small { color: var(--muted); font-size: 9px; }
+.class-schedule-time { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-block: 11px; border-block: 1px solid var(--line); }
+.class-schedule-time > span { direction: ltr; font-family: "DM Sans",var(--font); font-size: 20px; font-weight: 700; }
+.class-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 16px; }
+.class-price { font-family: "DM Sans",var(--font); font-size: 17px; font-weight: 700; }.class-price small { display: block; color: var(--muted); font-family: var(--font); font-size: 9px; font-weight: 400; }
+.reserve-button { min-height: 38px; padding-inline: 14px; font-size: 11px; }
+.reserve-button:disabled { background: #343d43; color: #aab4bb; cursor: not-allowed; transform: none; }
+.demo-note, .sample-disclaimer { margin: 13px 0 0; color: #a7b2aa; font-size: 10px; }
+.performance-section { background: #171b18; }
+.performance-layout { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 90px; padding-block: 105px; }
+.performance-copy > p:not(.eyebrow) { max-width: 440px; margin: 19px 0 25px; color: var(--muted); font-size: 13px; }
+.score-card { padding: 26px; border: 1px solid #414d45; background: #202723; box-shadow: 0 24px 65px rgba(0,0,0,.2); }
+.score-card-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--line); color: #9da69a; font-family: "DM Sans",var(--font); font-size: 9px; font-weight: 700; letter-spacing: 1.1px; }
+.private-tag { display: inline-flex; align-items: center; gap: 5px; color: var(--accent); font-size: 8px; }
+.private-tag span:first-child { font-size: 6px; }
+.sample-athlete { display: flex; align-items: center; gap: 11px; padding: 20px 0; }
+.athlete-avatar { display: grid; width: 43px; height: 43px; place-items: center; border-radius: 50%; background: #35353b; color: var(--accent); font-size: 16px; }
+.sample-athlete > div:nth-child(2) { display: grid; gap: 2px; }.sample-athlete strong { font-size: 12px; }.sample-athlete small { color: var(--muted); font-size: 9px; }
+.sample-score { margin-inline-start: auto; color: var(--accent); font-family: "DM Sans",sans-serif; font-size: 28px; font-weight: 700; }.sample-score small { color: var(--muted); font-size: 11px; }
+.metric-row { display: grid; grid-template-columns: 105px 1fr 25px; align-items: center; gap: 10px; margin-block: 14px; font-size: 10px; }
+.metric-row > span { color: #c4c9c1; }.metric-row > strong { color: var(--accent); direction: ltr; font-family: "DM Sans",sans-serif; font-size: 11px; }
+.metric-track { height: 4px; overflow: hidden; background: #292a31; }.metric-track span { display: block; width: var(--score); height: 100%; background: linear-gradient(90deg, var(--accent), var(--blue)); }
+.coach-message { margin-top: 22px; padding: 15px; border-right: 2px solid var(--accent); background: #29332e; }
+.message-heading { display: flex; align-items: center; gap: 9px; }.coach-dot { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 50%; background: #35353b; color: var(--accent); font-size: 10px; }
+.message-heading strong { color: #e5e5e8; font-size: 9px; }.message-heading time { margin-inline-start: auto; color: #82828a; font-family: "DM Sans",sans-serif; font-size: 8px; }
+.coach-message p { margin: 10px 0 0; color: #b7b7bd; font-size: 10px; }
+.fight-section { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: 90px; padding-block: 110px 125px; }
+.fight-art { position: relative; display: grid; min-height: 430px; overflow: hidden; place-items: center; background: #202824; }
+.fight-art::before { position: absolute; inset: 0; background: radial-gradient(ellipse at 38% 42%,rgba(79,112,101,.28),transparent 50%),radial-gradient(ellipse at 70% 65%,rgba(102,132,165,.18),transparent 48%); content: ""; }
+.fight-ring { z-index: 1; display: grid; width: 235px; height: 235px; align-content: center; justify-items: center; border: 1px solid rgba(120,150,138,.55); border-radius: 50%; color: var(--accent); font-family: "DM Sans",sans-serif; font-size: 42px; font-weight: 800; line-height: 1.08; letter-spacing: 5px; text-align: center; transform: rotate(-9deg); }
+.fight-ring span { margin-top: 7px; color: #edf2ed; font-size: 10px; letter-spacing: 2px; }
+.fight-orbit { position: absolute; width: 320px; height: 200px; border: 1px solid rgba(120,150,138,.38); border-radius: 50%; transform: rotate(38deg); }
+.orbit-two { width: 370px; height: 240px; border-color: rgba(102,132,165,.35); transform: rotate(-38deg); }
+.fight-cross { position: absolute; right: 12%; bottom: 12%; color: var(--accent); font-family: "DM Sans",sans-serif; font-size: 38px; }
+.fight-copy > p:not(.eyebrow):not(.fight-footnote) { max-width: 465px; margin: 17px 0 22px; color: var(--muted); font-size: 13px; }
+.fight-booking { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; padding: 19px; border: 1px solid var(--line); background: var(--bg-soft); }
+.fight-booking label, .profile-form label, .coach-ratings label, .add-class-form label { display: grid; gap: 6px; color: #c2c2c8; font-size: 10px; }
+input, select, textarea { width: 100%; min-width: 0; border: 1px solid #4a5750; border-radius: 0; outline: none; background: #1b211d; color: var(--ink); }
+input, select { min-height: 43px; padding: 8px 10px; }
+textarea { padding: 10px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+input[type="date"], input[type="time"] { color-scheme: dark; }
+.fight-total { display: flex; min-height: 52px; flex-direction: column; justify-content: center; color: var(--muted); font-size: 9px; }
+.fight-total strong { color: var(--accent); direction: ltr; font-family: "DM Sans",sans-serif; font-size: 18px; }
+.fight-submit { grid-column: span 2; min-height: 50px; }
+.fight-footnote { margin: 9px 0 0; color: #7e867a; font-size: 9px; }
+.final-cta { padding-block: 75px; background: linear-gradient(110deg, #243b33, #26374b); color: var(--ink); text-align: center; }
+.final-cta .eyebrow { justify-content: center; color: #b4c5c6; }.final-cta h2 { margin: 8px 0 21px; font-size: clamp(34px,5vw,56px); font-weight: 900; line-height: 1.3; }
+.site-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 100px; color: var(--muted); font-family: "DM Sans",var(--font); font-size: 10px; }
+.site-footer > p { margin: 0; }.admin-link { border: 0; background: none; color: #9aa198; cursor: pointer; font-size: 10px; }
+
+.app-dialog { position: fixed; width: min(510px, calc(100% - 32px)); max-width: none; max-height: min(90vh, 850px); padding: 0; overflow-y: auto; border: 1px solid #414a40; background: #171c18; color: var(--ink); box-shadow: 0 25px 100px rgba(0,0,0,.6); }
+.app-dialog::backdrop { background: rgba(4,7,5,.78); backdrop-filter: blur(5px); }
+.dialog-close { position: absolute; z-index: 2; top: 13px; left: 15px; display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; font-size: 22px; }
+.dialog-content, .admin-content { padding: 38px; }.dialog-eyebrow { margin-bottom: 10px; }
+.dialog-content h2, .admin-content > h2 { margin: 0 0 8px; font-size: 27px; line-height: 1.5; }
+.dialog-help { margin-bottom: 22px; color: var(--muted); font-size: 12px; }
+.form-status { margin: 0 0 14px; padding: 11px 13px; font-size: 12px; }
+.form-status.error { border: 1px solid #52687a; background: #1b252e; color: #c2d0db; }
+.demo-code-notice { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #465d57; border-radius: 8px; background: #1a2422; color: #c3d1ca; font-size: 11px; }
+.demo-code-notice strong { display: inline-block; margin-inline-start: 5px; color: var(--accent); direction: ltr; font-family: "DM Sans", sans-serif; font-size: 20px; letter-spacing: 3px; }
+.app-dialog > #auth-feedback { margin: 20px 38px 0; }
+.app-dialog #login-form, .app-dialog #forgot-form, .app-dialog #reset-form { display: grid; gap: 10px; }
+.app-dialog #login-form .button, .app-dialog #forgot-form .button, .app-dialog #reset-form .button { margin-top: 8px; }
+.app-dialog #login-form input, .app-dialog #forgot-form input, .app-dialog #reset-form input { margin-bottom: 5px; }
+.form-label { display: block; margin-bottom: 6px; color: #c6ccc2; font-size: 11px; }
+#phone-form input, #verify-form input { margin-bottom: 14px; }
+.full-button { width: 100%; }
+.security-note { margin: 13px 0 0; color: #7f887d; font-size: 9px; }
+.back-button { margin-top: 14px; padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 11px; text-decoration: underline; }
+.profile-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.profile-form .medical-field, .profile-form .full-button { grid-column: 1 / -1; }
+.profile-form label input, .profile-form label textarea { margin-top: 2px; }
+.athlete-dashboard-dialog { width: min(760px, calc(100% - 32px)); }
+.dashboard-intro { margin: -12px 0 18px; color: var(--muted); font-size: 11px; }
+.athlete-private-report { display: grid; gap: 14px; margin: 18px 0; padding: 16px; border: 1px solid var(--line); background: #202723; }
+.dashboard-member { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid var(--line); background: #29332e; }
+.dashboard-member div { display: grid; gap: 3px; }
+.dashboard-member span, .assessment-entry-date span { color: var(--muted); font-size: 9px; }
+.dashboard-member strong { font-size: 12px; }
+.dashboard-section { display: grid; gap: 10px; }
+.dashboard-section > h3 { margin: 0; color: var(--ink); font-size: 13px; }
+.assessment-history { display: grid; gap: 10px; }
+.assessment-entry { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); background: #17171b; }
+.assessment-entry-date { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.assessment-entry-date time, .dashboard-bookings time { color: var(--muted); font-size: 9px; }
+.dashboard-bookings { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.dashboard-bookings li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); font-size: 10px; }
+.dashboard-bookings li span { color: var(--muted); }
+.dashboard-bookings .dashboard-empty { color: var(--muted); }
+.athlete-report-title { display: flex; justify-content: space-between; gap: 12px; color: var(--accent); font-size: 10px; font-weight: 700; }
+.athlete-report-scores { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.athlete-report-scores div { padding: 10px 6px; background: #303832; text-align: center; }
+.athlete-report-scores span { display: block; color: var(--muted); font-size: 9px; }
+.athlete-report-scores strong { color: var(--ink); direction: ltr; font-family: "DM Sans",sans-serif; font-size: 18px; }
+.athlete-report-message { padding: 12px; border-right: 2px solid var(--accent); background: #29332e; color: #d2dcd4; font-size: 11px; }
+.athlete-report-message strong { display: block; margin-bottom: 5px; color: var(--accent); font-size: 9px; }
+.athlete-report-message p { margin: 0; white-space: pre-wrap; }
+.athlete-page { min-height: 100vh; }
+.athlete-dashboard-main { width: min(1180px, calc(100% - 64px)); margin: 0 auto; padding: 65px 0 90px; }
+.dashboard-hero { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 34px; }
+.dashboard-hero h1 { margin: 12px 0 8px; font-size: clamp(42px, 6vw, 64px); font-weight: 900; line-height: 1.2; }
+.dashboard-hero h1 em { color: var(--accent); font-style: normal; }
+.dashboard-lead { margin: 0; color: var(--muted); font-size: 13px; }
+.dashboard-athlete-chip { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); background: var(--bg-soft); }
+.dashboard-athlete-chip > span:last-child { display: grid; gap: 2px; }
+.dashboard-athlete-chip strong { font-size: 13px; }
+.dashboard-athlete-chip small { color: var(--muted); font-size: 9px; }
+.dashboard-avatar { display: grid; width: 43px; height: 43px; place-items: center; background: linear-gradient(145deg, #39594d, #354b62); color: var(--ink); font-size: 15px; font-weight: 800; }
+.dashboard-profile-strip { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 18px; border: 1px solid var(--line); background: linear-gradient(110deg, #202a24, #202832); }
+.dashboard-profile-strip > div { display: grid; gap: 4px; padding: 17px 20px; border-inline-start: 1px solid var(--line); }
+.dashboard-profile-strip > div:first-child { border-inline-start: 0; }
+.dashboard-profile-strip span { color: var(--muted); font-size: 9px; }
+.dashboard-profile-strip strong { font-size: 12px; }
+.dashboard-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, .8fr); align-items: start; gap: 18px; }
+.dashboard-main-column, .dashboard-side-column { display: grid; gap: 18px; min-width: 0; }
+.dashboard-panel { min-width: 0; padding: 23px; border: 1px solid var(--line); background: var(--bg-soft); }
+.dashboard-panel-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 19px; }
+.dashboard-panel-heading .eyebrow { margin-bottom: 5px; font-size: 9px; }
+.dashboard-panel-heading h2, .dashboard-growth-note h2 { margin: 0; font-size: 21px; line-height: 1.5; }
+.subscription-summary { display: grid; gap: 8px; }
+.subscription-summary > strong { color: var(--accent); font-size: 17px; }
+.subscription-summary > span { font-size: 27px; font-weight: 800; }
+.subscription-summary time, .subscription-summary p { margin: 0; color: var(--muted); font-size: 11px; }
+.subscription-note { margin: 14px 0 0; line-height: 1.8; }
+.dashboard-caption { color: var(--muted); font-size: 9px; }
+.performance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.performance-card { display: grid; gap: 10px; min-width: 0; padding: 13px; border: 1px solid var(--line); border-top: 2px solid var(--accent); background: linear-gradient(145deg, rgba(79,112,101,.24), #252d28 68%); }
+.performance-card:nth-child(3n + 2) { border-top-color: var(--blue); background: linear-gradient(145deg, rgba(102,132,165,.23), #252c31 68%); }
+.performance-card:nth-child(3n) { border-top-color: var(--accent-dark); background: linear-gradient(145deg, rgba(48,75,64,.27), #252d28 68%); }
+.performance-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.performance-card-top > span { font-size: 11px; font-weight: 600; }
+.performance-card-top > strong { color: var(--accent); direction: ltr; font-family: "DM Sans", sans-serif; font-size: 20px; line-height: 1; }
+.performance-card:nth-child(3n + 2) .performance-card-top > strong { color: #a3bad2; }
+.performance-card:nth-child(3n) .performance-card-top > strong { color: #a6c0b3; }
+.performance-card-top small { margin-inline-start: 3px; color: var(--muted); font-size: 9px; }
+.performance-meter { height: 6px; overflow: hidden; background: #48534c; }
+.performance-meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent-dark), var(--blue)); transition: width .3s ease; }
+.performance-meter.is-estimated span { opacity: .8; }
+.performance-card.rating-25 { border-color: rgba(209,76,76,.58); border-top-color: #d34f52; background: linear-gradient(145deg, rgba(211,79,82,.18), #252d28 72%); }
+.performance-card.rating-50 { border-color: rgba(224,157,58,.58); border-top-color: #e3a23d; background: linear-gradient(145deg, rgba(227,162,61,.18), #252d28 72%); }
+.performance-card.rating-75 { border-color: rgba(54,151,94,.58); border-top-color: #389660; background: linear-gradient(145deg, rgba(56,150,96,.18), #252d28 72%); }
+.performance-card.rating-99 { border-color: rgba(220,179,73,.8); border-top-color: #e5bd4f; background: linear-gradient(145deg, rgba(213,170,54,.22), #252d28 72%); box-shadow: inset 0 0 0 1px rgba(229,189,79,.14), 0 0 13px rgba(213,170,54,.08); }
+.performance-card.rating-25 .performance-card-top > strong { color: #ef7777; }.performance-card.rating-25 .performance-meter span { background: linear-gradient(90deg, #c9444a, #ef7777); }
+.performance-card.rating-50 .performance-card-top > strong { color: #f0bc62; }.performance-card.rating-50 .performance-meter span { background: linear-gradient(90deg, #d98b2f, #f0bc62); }
+.performance-card.rating-75 .performance-card-top > strong { color: #69c489; }.performance-card.rating-75 .performance-meter span { background: linear-gradient(90deg, #348454, #69c489); }
+.performance-card.rating-99 .performance-card-top > strong { color: #f0d071; }.performance-card.rating-99 .performance-meter span { background: linear-gradient(90deg, #bd8f28, #f0d071); }
+.score-change { color: var(--muted); font-size: 9px; }
+.score-change.pending-label, .score-change.estimated-label { color: var(--accent); }
+.score-change.positive { color: var(--accent); }
+.score-change.negative { color: #91a7bb; }
+.coach-guidance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.coach-guidance-card { padding: 15px; border-inline-start: 2px solid var(--accent); background: #202723; }
+.coach-guidance-card h3 { margin: 0 0 7px; color: var(--accent); font-size: 10px; }
+.coach-guidance-card p, .timeline-card p { margin: 0; color: #c1c8bd; font-size: 11px; line-height: 1.8; white-space: pre-wrap; }
+.assessment-timeline { display: grid; max-height: 390px; gap: 0; overflow-y: auto; overscroll-behavior: contain; padding-inline-end: 6px; scrollbar-color: #70877a #242d28; scrollbar-width: thin; }
+.assessment-timeline::-webkit-scrollbar { width: 7px; }
+.assessment-timeline::-webkit-scrollbar-track { border-radius: 8px; background: #242d28; }
+.assessment-timeline::-webkit-scrollbar-thumb { border: 1px solid #242d28; border-radius: 8px; background: #70877a; }
+.timeline-entry { position: relative; display: grid; grid-template-columns: 13px minmax(0, 1fr); gap: 11px; padding-bottom: 14px; }
+.timeline-entry:last-child { padding-bottom: 0; }
+.timeline-marker { position: relative; width: 9px; height: 9px; margin-top: 5px; border: 2px solid var(--accent); border-radius: 50%; }
+.timeline-entry:not(:last-child) .timeline-marker::after { position: absolute; top: 7px; right: 1px; width: 1px; height: calc(100% + 17px); background: var(--line); content: ""; }
+.timeline-card { display: grid; gap: 10px; padding: 13px; border: 1px solid var(--line); background: #29332e; }
+.timeline-card > time { color: var(--muted); font-size: 9px; }
+.timeline-scores { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.timeline-scores > span { display: flex; justify-content: space-between; gap: 3px; padding: 7px 8px; background: #303832; color: #d3ddd5; font-size: 9px; }
+.timeline-scores strong { color: var(--ink); direction: ltr; font-family: "DM Sans", sans-serif; }
+.timeline-scores > span.rating-25 { border: 1px solid rgba(211,79,82,.55); border-radius: 5px; background: rgba(211,79,82,.1); }
+.timeline-scores > span.rating-50 { border: 1px solid rgba(227,162,61,.55); border-radius: 5px; background: rgba(227,162,61,.1); }
+.timeline-scores > span.rating-75 { border: 1px solid rgba(56,150,96,.55); border-radius: 5px; background: rgba(56,150,96,.1); }
+.timeline-scores > span.rating-99 { border: 1px solid rgba(229,189,79,.8); border-radius: 5px; background: rgba(213,170,54,.14); box-shadow: inset 0 0 0 1px rgba(229,189,79,.12); }
+.timeline-scores > span.rating-25 strong { color: #ef7777; }
+.timeline-scores > span.rating-50 strong { color: #f0bc62; }
+.timeline-scores > span.rating-75 strong { color: #69c489; }
+.timeline-scores > span.rating-99 strong { color: #f0d071; }
+.dashboard-session-list { display: grid; gap: 8px; }
+.dashboard-session { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: center; gap: 10px; padding: 11px; border: 1px solid var(--line); }
+.session-date-mark { display: grid; min-height: 38px; place-items: center; background: #35413a; color: var(--accent); font-size: 9px; text-align: center; }
+.dashboard-session > div { display: grid; gap: 3px; min-width: 0; }
+.dashboard-session strong { overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.dashboard-session > div > span, .dashboard-session > time { color: var(--muted); font-size: 8px; }
+.dashboard-session > time { grid-column: 2; }
+.dashboard-text-link { color: var(--accent); font-size: 10px; }
+.dashboard-growth-note { border-color: rgba(120,152,183,.46); background: linear-gradient(145deg, rgba(102,132,165,.18), rgba(79,112,101,.18)); }
+.dashboard-growth-note h2 { margin-bottom: 9px; font-size: 18px; }
+.dashboard-growth-note > p:last-child { margin: 0; color: #d0dad4; font-size: 10px; line-height: 1.8; }
+.dashboard-empty-copy { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.dashboard-notice { margin-bottom: 20px; padding: 15px; border: 1px solid var(--danger); color: var(--ink); font-size: 12px; }
+.dashboard-notice a { margin-inline-start: 8px; color: var(--accent); text-decoration: underline; }
+.admin-dialog { width: min(680px, calc(100% - 30px)); }
+.admin-content { padding-top: 42px; }
+.admin-tabs { display: flex; gap: 8px; margin: 22px 0 18px; border-bottom: 1px solid var(--line); }
+.admin-tab { padding: 9px 16px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); cursor: pointer; font-size: 11px; }
+.admin-tab.active { border-bottom-color: var(--accent); color: var(--accent); }
+.admin-panel { min-height: 100px; }
+.select-athlete { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 12px; margin-bottom: 15px; color: #bdc3b9; font-size: 11px; }
+.coach-ratings { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+.coach-form > label { margin-bottom: 6px; }
+.coach-form textarea { margin-bottom: 13px; }
+.athlete-list { display: grid; gap: 7px; margin-top: 20px; }
+.athlete-row, .admin-class-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 12px; border: 1px solid var(--line); color: #d0d5cd; font-size: 10px; }
+.athlete-row small, .admin-class-row small { color: var(--muted); }
+.admin-class-list { display: grid; gap: 7px; margin-bottom: 19px; }
+.admin-class-row button { border: 0; background: none; color: var(--danger); cursor: pointer; font-size: 10px; }
+.add-class-form { display: grid; gap: 11px; padding-top: 18px; border-top: 1px solid var(--line); }
+.add-athlete-form { display: grid; gap: 11px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.add-class-form h3 { margin: 0; font-size: 15px; }
+.weekday-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin: 0; padding: 12px; border: 1px solid var(--line); }
+.weekday-picker legend { padding-inline: 5px; color: #bdc3b9; font-size: 10px; }
+.add-class-form .weekday-option { display: flex; align-items: center; gap: 6px; color: var(--ink); }
+.weekday-option input { width: 16px; min-height: 16px; margin: 0; accent-color: var(--accent); }
+.add-athlete-form h3 { margin: 0; font-size: 15px; }
+.add-class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.payment-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.payment-actions .button { min-height: 44px; padding-inline: 14px; font-size: 11px; }
+.toast-region { position: fixed; z-index: 50; right: 20px; bottom: 20px; display: grid; gap: 9px; }
+.toast { max-width: min(400px, calc(100vw - 40px)); padding: 13px 17px; border: 1px solid #465d57; background: #1a2422; color: var(--ink); box-shadow: 0 9px 30px #0005; font-size: 12px; animation: toast-in .25s ease-out; }
+.toast.error { border-color: #52687a; background: #1b252e; }
+.hidden { display: none !important; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+html[dir="ltr"] .hero-copy { padding-inline-end: 0; padding-inline-start: 35px; }
+html[dir="ltr"] .vertical-note { right: -52px; left: auto; }
+html[dir="ltr"] .round-stamp { right: 0; left: auto; }
+html[dir="ltr"] .hero-caption { right: auto; left: 0; }
+html[dir="ltr"] .photo-label { right: auto; left: 24px; }
+html[dir="ltr"] .section-kicker { direction: ltr; }
+html[dir="ltr"] .coach-message { border-right: 0; border-left: 2px solid var(--accent); }
+html[dir="ltr"] .athlete-report-message { border-right: 0; border-left: 2px solid var(--accent); }
+html[dir="ltr"] .fight-cross { right: auto; left: 12%; }
+html[dir="ltr"] .dialog-close { right: 15px; left: auto; }
+html[dir="ltr"] .fight-total strong { align-self: flex-start; }
+
+@media (max-width: 850px) {
+  .section-wrap { width: min(100% - 40px, 680px); }
+  .booking-main { width: min(100% - 40px, 680px); }
+  .athlete-dashboard-main { width: min(100% - 40px, 680px); }
+  .dashboard-layout { grid-template-columns: 1fr; }
+  .dashboard-side-column { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .site-header { padding-inline: 20px; }
+  .main-nav { gap: 15px; font-size: 11px; }
+  .hero { min-height: 600px; grid-template-columns: 1fr .85fr; }
+  .hero h1 { font-size: clamp(48px, 7vw, 66px); }
+  .hero-visual { min-height: 415px; }
+  .photo-frame { inset-inline: 0 20px; }
+  .class-grid { grid-template-columns: repeat(2, 1fr); }
+  .performance-layout, .fight-section { gap: 40px; }
+}
+@media (max-width: 620px) {
+  .section-wrap { width: calc(100% - 36px); }
+  .booking-main { width: calc(100% - 36px); padding: 42px 0 58px; }
+  .booking-plans { grid-template-columns: 1fr; gap: 12px; }
+  .booking-plan-card { padding: 19px; }
+  .booking-login { align-items: stretch; flex-direction: column; }
+  .athlete-dashboard-main { width: calc(100% - 36px); padding: 42px 0 60px; }
+  .dashboard-hero { display: grid; align-items: start; gap: 20px; margin-bottom: 22px; }
+  .dashboard-hero h1 { font-size: 43px; }
+  .dashboard-athlete-chip { justify-self: start; }
+  .dashboard-profile-strip { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-profile-strip > div:nth-child(3) { border-inline-start: 0; border-top: 1px solid var(--line); }
+  .dashboard-profile-strip > div:nth-child(4) { border-top: 1px solid var(--line); }
+  .dashboard-profile-strip > div { padding: 13px; }
+  .dashboard-side-column { grid-template-columns: 1fr; }
+  .dashboard-panel { padding: 17px; }
+  .dashboard-panel-heading h2 { font-size: 18px; }
+  .dashboard-caption { max-width: 110px; text-align: end; }
+  .coach-guidance-grid { grid-template-columns: 1fr; }
+  .performance-grid { gap: 7px; }
+  .performance-card { padding: 10px; }
+  .performance-card-top > span { font-size: 9px; }
+  .performance-card-top > strong { font-size: 18px; }
+  .score-change { font-size: 8px; }
+  .timeline-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-header { min-height: 66px; padding-inline: 18px; }
+  .brand-mark { width: 31px; height: 31px; font-size: 18px; }.brand-name { font-size: 11px; letter-spacing: .9px; }
+  .main-nav { display: none; }
+  .header-actions { gap: 6px; }.language-switch { width: 35px; height: 35px; }.button-small { min-height: 36px; padding-inline: 8px; font-size: 9px; }
+  .hero { display: flex; min-height: auto; flex-direction: column; align-items: stretch; padding-block: 60px 48px; }
+  .hero-copy { padding: 0 !important; }.hero h1 { margin-top: 15px; font-size: clamp(50px, 13vw, 72px); letter-spacing: -2px; }
+  .hero-description { max-width: 380px; font-size: 13px; }
+  .hero-actions { gap: 15px; }.hero-actions .button { min-height: 47px; padding-inline: 15px; font-size: 11px; }.text-button { font-size: 11px; }
+  .hero-proof { margin-top: 28px; }.hero-visual { min-height: 370px; margin-top: 35px; }.photo-frame { inset: 0 12px 19px 22px; }
+  .round-stamp { top: 15px; width: 75px; height: 75px; }.round-stamp strong { font-size: 23px; }
+  .vertical-note { display: none; }
+  .classes-section { padding-block: 75px 80px; }.section-heading { display: block; margin-bottom: 26px; }.section-heading h2, .performance-copy h2, .fight-copy h2 { font-size: 43px; }
+  .section-intro { margin-top: 15px; font-size: 12px; }.filter-tab { padding: 7px 12px; font-size: 10px; }.availability-note { font-size: 9px; }
+  .class-grid { grid-template-columns: 1fr; gap: 10px; }.class-card { min-height: auto; padding: 19px; }.class-card h3 { margin-top: 12px; }.class-card .class-description { min-height: 0; margin-bottom: 13px; }
+  .weekday-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .performance-layout { grid-template-columns: 1fr; gap: 28px; padding-block: 76px; }.performance-copy > p:not(.eyebrow) { font-size: 12px; }.score-card { padding: 19px; }
+  .fight-section { grid-template-columns: 1fr; gap: 35px; padding-block: 75px 85px; }.fight-art { min-height: 300px; order: 2; }.fight-copy { order: 1; }.fight-ring { width: 190px; height: 190px; font-size: 34px; }.fight-orbit { width: 275px; height: 170px; }.orbit-two { width: 310px; height: 210px; }
+  .fight-booking { gap: 8px; padding: 14px; }.fight-booking label { font-size: 9px; }.fight-total { grid-column: span 1; }.fight-submit { grid-column: span 2; padding-inline: 11px; font-size: 11px; }
+  .final-cta { padding-block: 58px; }.site-footer { min-height: 130px; flex-wrap: wrap; justify-content: space-between; padding-block: 20px; }.site-footer > p { order: 3; width: 100%; }.site-footer > span { text-align: end; }
+  .dialog-content, .admin-content { padding: 33px 22px 25px; }.app-dialog > #auth-feedback { margin: 20px 22px 0; }.dialog-content h2, .admin-content > h2 { font-size: 23px; }.profile-form { gap: 9px; }.coach-ratings { gap: 6px; }.coach-ratings label { font-size: 9px; }.select-athlete { grid-template-columns: 90px 1fr; }.toast-region { right: 12px; bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  inset-inline-start: 10px;
+  padding: 10px 15px;
+  transform: translateY(-160%);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.site-header { box-shadow: 0 8px 30px rgba(0,0,0,.12); }
+.brand-mark { border-radius: 4px; }
+.button, .language-switch, .filter-tab, .class-card, .dashboard-panel, .score-card, .app-dialog, input, select, textarea {
+  border-radius: 8px;
+}
+.button { letter-spacing: .01em; }
+.button:disabled { opacity: .65; cursor: wait; transform: none; }
+.button-primary { box-shadow: 0 5px 22px rgba(79,112,101,.28), 0 3px 16px rgba(102,132,165,.22); }
+.class-card { background: linear-gradient(145deg, #252e29, #202723); }
+.class-card:hover { box-shadow: 0 18px 38px rgba(0,0,0,.2); }
+.score-card, .dashboard-panel { box-shadow: 0 14px 40px rgba(0,0,0,.12); }
+.performance-card, .timeline-card, .dashboard-session, .coach-guidance-card { border-radius: 7px; }
+.fight-booking { border-radius: 10px; }
+.fight-art { border: 1px solid rgba(255,255,255,.06); border-radius: 12px; }
+.final-cta { position: relative; overflow: hidden; }
+.final-cta::before, .final-cta::after {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgba(0,0,0,.16);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+.final-cta::before { top: -155px; inset-inline-start: 8%; }
+.final-cta::after { right: 12%; bottom: -180px; }
+.site-footer { border-top: 1px solid rgba(255,255,255,.06); }
+.performance-meter, .metric-track, .performance-meter span { border-radius: 999px; }
+.toast { border-radius: 9px; }
+.app-dialog { border-radius: 14px; }
+.dialog-close { border-radius: 8px; }
+.dashboard-athlete-chip, .dashboard-profile-strip { border-radius: 10px; }
+.dashboard-avatar { border-radius: 10px; }
+.form-status { border-radius: 8px; }
+input, select, textarea { transition: border-color .18s ease, box-shadow .18s ease; }
+input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(143,189,157,.22); }
+::placeholder { color: #9daaa1; opacity: 1; }
+
+.coach-page { min-height: 100vh; background: radial-gradient(ellipse at 85% 0, rgba(69,104,82,.2), transparent 38%), var(--bg); }
+.coach-header { display: flex; min-height: 76px; align-items: center; justify-content: space-between; padding-inline: max(24px, calc((100% - 1240px) / 2)); border-bottom: 1px solid var(--line); background: rgba(23,28,25,.92); }
+.coach-main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding-block: 54px 80px; }
+.coach-login-panel { width: min(460px, 100%); margin: 8vh auto 0; padding: 34px; border: 1px solid var(--line); background: linear-gradient(145deg, rgba(53,65,58,.92), rgba(32,39,35,.96)); box-shadow: 0 24px 80px #0003; }
+.coach-login-panel h1, .coach-title-row h1 { margin: 9px 0 6px; font-size: clamp(29px, 4vw, 40px); line-height: 1.3; }
+.coach-muted { color: var(--muted); font-size: 13px; }
+.coach-login-form { display: grid; gap: 9px; margin-top: 24px; }
+.coach-login-form label, .coach-assessment-form label, .coach-search-label { display: grid; gap: 7px; color: #d3ddd5; font-size: 12px; }
+.coach-feedback { min-height: 1.5em; margin: 2px 0; color: #a7c7b1; font-size: 12px; }
+.coach-login-panel .coach-feedback:empty, .coach-list-empty { min-height: 0; }
+.coach-workspace { display: grid; gap: 25px; }
+.coach-title-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.coach-title-row .coach-muted { margin-bottom: 0; }
+.coach-grid { display: grid; grid-template-columns: minmax(270px, .7fr) minmax(0, 1.65fr); align-items: start; gap: 18px; }
+.coach-panel { min-width: 0; padding: 21px; border: 1px solid var(--line); background: rgba(32,39,35,.92); }
+.coach-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.coach-panel-heading h2 { margin: 0; font-size: 20px; }
+.coach-count { display: grid; min-width: 31px; min-height: 31px; place-items: center; border: 1px solid var(--line); color: var(--accent); font-size: 12px; }
+.coach-search-label { margin-bottom: 5px; }
+.coach-athlete-list { display: grid; gap: 8px; max-height: 65vh; margin-top: 12px; overflow-y: auto; }
+.coach-athlete-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 12px; padding: 13px; border: 1px solid var(--line); background: #252e29; color: var(--ink); cursor: pointer; text-align: start; transition: border-color .18s, background .18s; }
+.coach-athlete-card:hover, .coach-athlete-card.selected { border-color: var(--accent-dark); background: #303c34; }
+.coach-athlete-name { font-weight: 700; }
+.coach-athlete-phone { grid-row: 2; grid-column: 1; color: var(--muted); font-size: 11px; text-align: start; }
+.coach-athlete-membership { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--accent); font-size: 10px; text-align: end; }
+.coach-athlete-updated { grid-row: 3; grid-column: 1 / -1; margin-top: 5px; color: var(--muted); font-size: 10px; }
+.coach-detail-panel { min-height: 400px; }
+.coach-empty { display: grid; min-height: 350px; align-content: center; justify-items: center; gap: 12px; color: var(--muted); text-align: center; }
+.coach-empty span { color: var(--accent); font-size: 48px; }
+.coach-empty p { max-width: 340px; margin: 0; }
+.coach-athlete-heading { justify-content: start; margin-bottom: 18px; }
+.coach-athlete-heading .eyebrow { margin-bottom: 4px; }
+.coach-athlete-heading h2 { margin-bottom: 1px; font-size: 25px; }
+.coach-athlete-heading .coach-muted { margin: 0; direction: ltr; text-align: start; }
+.coach-last-updated { margin: 6px 0 0; color: var(--accent); font-size: 11px; }
+.coach-subscriptions { display: grid; gap: 9px; margin-bottom: 27px; }
+.coach-subscription-card { padding: 14px; border: 1px solid var(--line); background: linear-gradient(115deg, rgba(69,104,82,.2), rgba(34,43,38,.68)); }
+.coach-subscription-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.coach-subscription-heading strong { font-size: 13px; }
+.coach-subscription-heading span { font-size: 11px; }
+.subscription-active { color: var(--accent); }
+.subscription-expired { color: #a7b3bd; }
+.coach-subscription-days { display: flex; align-items: baseline; gap: 7px; margin-top: 8px; }
+.coach-subscription-days strong { color: var(--accent); font-family: "DM Sans", sans-serif; font-size: 25px; }
+.coach-subscription-days span, .coach-subscription-card p { color: var(--muted); font-size: 10px; }
+.coach-subscription-card p { margin: 5px 0 0; }
+.coach-subscription-card time { direction: ltr; }
+.coach-assessment-form { display: grid; gap: 12px; padding-top: 19px; border-top: 1px solid var(--line); }
+.coach-assessment-form h3 { margin: 0; font-size: 19px; }
+.coach-assessment-form > .coach-muted { margin: -7px 0 0; font-size: 11px; }
+.coach-score-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.coach-score-grid label { font-size: 10px; }
+.coach-score-grid input { direction: ltr; }
+.coach-assessment-form textarea { min-height: 78px; }
+.coach-assessment-form .coach-feedback:empty { display: none; }
+.coach-assessment-form .coach-feedback.is-visible { min-height: 0; padding: 10px 12px; border: 1px solid var(--accent-dark); background: rgba(69,104,82,.2); color: var(--ink); }
+.coach-assessment-form .coach-feedback.is-error { border-color: #7898b7; background: rgba(102,132,165,.16); color: #d7e3ed; }
+.coach-save-result:empty { display: none; }
+.coach-save-result.is-visible { min-height: 0; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--accent-dark); background: rgba(69,104,82,.2); color: var(--ink); }
+.coach-save-result.is-error { border-color: #7898b7; background: rgba(102,132,165,.16); color: #d7e3ed; }
+.coach-assessment-form button:disabled, .coach-login-form button:disabled { cursor: wait; opacity: .65; }
+
+@media (max-width: 780px) {
+  .coach-grid { grid-template-columns: 1fr; }
+  .coach-athlete-list { max-height: 330px; }
+}
+@media (max-width: 560px) {
+  .coach-header { min-height: 65px; padding-inline: 18px; }
+  .coach-main { width: calc(100% - 28px); padding-block: 32px 55px; }
+  .coach-login-panel, .coach-panel { padding: 18px; }
+  .coach-title-row { align-items: flex-start; }
+  .coach-title-row > .button { flex-shrink: 0; }
+  .coach-title-row .coach-muted { font-size: 11px; }
+  .coach-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.coach-page {
+  color-scheme: light;
+  --bg: #edf2ee;
+  --bg-soft: #f7faf7;
+  --surface: #ffffff;
+  --surface-light: #e6eee8;
+  --ink: #26372d;
+  --muted: #64746a;
+  --line: #d7e1d9;
+  --accent: #397c55;
+  --accent-dark: #4d795d;
+  --blue: #547b9b;
+  background: radial-gradient(ellipse at 86% 0, rgba(91,143,105,.13), transparent 38%), var(--bg);
+}
+.coach-page .coach-header { border-color: var(--line); background: rgba(248,251,248,.95); box-shadow: 0 3px 14px rgba(32,55,39,.05); }
+.coach-page .coach-main { padding-top: 40px; }
+.coach-page .coach-login-panel, .coach-page .coach-panel { border-color: var(--line); border-radius: 12px; background: rgba(255,255,255,.94); box-shadow: 0 10px 30px rgba(35,58,42,.07); }
+.coach-page .coach-login-panel { background: linear-gradient(145deg, #fff, #f3f8f4); }
+.coach-page .coach-panel { padding: 23px; }
+.coach-page .coach-grid { grid-template-columns: minmax(270px, .75fr) minmax(0, 1.8fr); gap: 20px; }
+.coach-page .coach-panel-heading { margin-bottom: 18px; }
+.coach-page .coach-count { border-radius: 9px; background: #edf5ef; font-weight: 700; }
+.coach-page .coach-filter-label { margin-top: 12px; }
+.coach-page .coach-athlete-list { gap: 8px; max-height: 70vh; margin-top: 14px; padding: 2px; }
+.coach-page .coach-athlete-card { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px 12px; padding: 13px; border-color: #e1e9e3; border-radius: 10px; background: #fff; box-shadow: 0 2px 6px rgba(35,58,42,.035); }
+.coach-page .coach-athlete-card:hover, .coach-page .coach-athlete-card.selected { border-color: #75a481; background: #f2f8f3; box-shadow: 0 3px 10px rgba(43,94,58,.08); }
+.coach-page .coach-athlete-identity { display: flex; min-width: 0; align-items: center; gap: 10px; }
+.coach-page .coach-athlete-avatar { display: grid; width: 39px; height: 39px; flex: 0 0 39px; place-items: center; border: 1px solid #d5e5d8; border-radius: 50%; background: linear-gradient(145deg, #e6f1e8, #f5f9f5); color: #397c55; font-size: 13px; font-weight: 800; }
+.coach-page .coach-athlete-info { display: grid; min-width: 0; gap: 1px; }
+.coach-page .coach-athlete-name { overflow: hidden; color: #2b3c31; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.coach-page .coach-athlete-phone { grid-row: auto; grid-column: auto; color: #718076; font-size: 10px; }
+.coach-page .coach-athlete-membership { display: grid; grid-row: auto; grid-column: auto; gap: 3px; align-self: center; justify-items: end; padding: 6px 9px; border-radius: 7px; background: #eef5ef; color: #376847; font-size: 10px; line-height: 1.4; }
+.coach-page .coach-athlete-membership small { max-width: 120px; overflow: hidden; color: #718076; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.coach-page .coach-membership-expired { background: #f1f3f5; color: #627181; }
+.coach-page .coach-membership-none { background: #fbf3e7; color: #8a6532; }
+.coach-page .coach-athlete-updated { display: flex; grid-row: auto; grid-column: 1 / -1; justify-content: space-between; gap: 8px; margin: 0; padding-top: 8px; border-top: 1px solid #edf1ed; color: #839087; font-size: 9px; }
+.coach-page .coach-athlete-updated time { color: #53675a; text-align: end; }
+.coach-page .coach-detail-panel { padding: 25px; }
+.coach-page .coach-athlete-heading { padding: 17px 19px; border: 1px solid #e0e9e2; border-inline-start: 4px solid var(--accent); border-radius: 10px; background: linear-gradient(110deg, #f5faf6, #fff); }
+.coach-page .coach-athlete-heading .eyebrow { color: var(--accent); }
+.coach-page .coach-last-updated { color: #4c7458; }
+.coach-page .coach-subscriptions { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 11px; margin-bottom: 23px; }
+.coach-page .coach-subscription-card { border-color: #dbe8de; border-radius: 10px; background: linear-gradient(135deg, #f0f7f1, #fbfdfb); }
+.coach-page .coach-subscription-heading strong { color: var(--ink); }
+.coach-page .coach-subscription-days strong { color: var(--accent); }
+.coach-page .coach-assessment-form { gap: 15px; padding-top: 0; border-top: 0; }
+.coach-page .coach-assessment-section { padding: 17px; border: 1px solid #e1e9e3; border-radius: 10px; background: #fbfcfb; }
+.coach-page .coach-section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; margin-bottom: 14px; }
+.coach-page .coach-section-heading h3 { margin: 0; color: var(--ink); font-size: 16px; }
+.coach-page .coach-section-heading .coach-muted { margin: 3px 0 0; font-size: 11px; }
+.coach-page .coach-section-mark { color: #9db8a2; direction: ltr; font-family: "DM Sans", sans-serif; font-size: 18px; font-weight: 800; }
+.coach-page .coach-score-grid { gap: 12px; }
+.coach-page .coach-score-grid label, .coach-page .coach-assessment-form label, .coach-page .coach-search-label, .coach-page .coach-login-form label { color: #46594c; font-weight: 600; }
+.coach-page input, .coach-page select, .coach-page textarea { border-color: #d6e0d8; border-radius: 7px; background: #fff; color: #26372d; }
+.coach-page .coach-score-grid select.rating-25 { border: 1px solid #d34f52; background-color: #fff4f3; color: #a93439; box-shadow: 0 0 0 2px rgba(211,79,82,.1); }
+.coach-page .coach-score-grid select.rating-50 { border: 1px solid #d98b2f; background-color: #fff8eb; color: #946019; box-shadow: 0 0 0 2px rgba(227,162,61,.12); }
+.coach-page .coach-score-grid select.rating-75 { border: 1px solid #389660; background-color: #f0faf3; color: #277647; box-shadow: 0 0 0 2px rgba(56,150,96,.1); }
+.coach-page .coach-score-grid select.rating-99 { border: 1px solid #c69b32; background-color: #fff9e7; color: #856313; box-shadow: 0 0 0 2px rgba(213,170,54,.16), inset 0 0 0 1px rgba(229,189,79,.2); }
+.coach-page input:focus, .coach-page select:focus, .coach-page textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(57,124,85,.13); }
+.coach-page .coach-assessment-form textarea { min-height: 96px; }
+.coach-page .coach-message-section textarea { background: #fff; }
+.coach-page .coach-save-result.is-visible, .coach-page .coach-assessment-form .coach-feedback.is-visible { border-color: #c9dfcd; border-radius: 8px; background: #edf7ee; color: #315a3c; }
+.coach-page .coach-save-result.is-error, .coach-page .coach-assessment-form .coach-feedback.is-error { border-color: #d7e2eb; background: #f1f6fa; color: #38536a; }
+.coach-page .coach-empty { border: 1px dashed #d1dfd5; border-radius: 10px; background: #fbfdfb; }
+.coach-page .button-outline { border-color: #b8cbbd; color: #345240; }
+.coach-page .coach-login-panel .coach-muted { color: #64746a; }
+
+@media (max-width: 780px) {
+  .coach-page .coach-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .coach-page .coach-panel, .coach-page .coach-detail-panel { padding: 16px; }
+  .coach-page .coach-assessment-section { padding: 13px; }
+  .coach-page .coach-subscriptions { grid-template-columns: 1fr; }
+  .coach-page .coach-athlete-card { padding: 10px; }
+  .coach-page .coach-athlete-membership { max-width: 120px; padding: 5px 7px; font-size: 9px; }
+}
+
+.nav-toggle { display: none; }
+@media (max-width: 760px) {
+  .site-header { position: sticky; }
+  .nav-toggle {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    align-content: center;
+    justify-items: center;
+    gap: 5px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .nav-toggle span { width: 17px; height: 2px; background: var(--ink); transition: transform .18s ease, opacity .18s ease; }
+  .nav-toggle[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
+  .site-header .main-nav {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    display: none;
+    gap: 0;
+    padding: 10px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(23,28,25,.99);
+    box-shadow: 0 16px 25px rgba(0,0,0,.28);
+    font-size: 13px;
+  }
+  .site-header .main-nav.is-open { display: grid; }
+  .main-nav a { padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .main-nav a:last-child { border-bottom: 0; }
+  .athlete-page .header-actions > a { display: none; }
+}
+@media (max-width: 420px) {
+  .site-header { padding-inline: 12px; }
+  .header-actions { gap: 6px; }
+  .header-actions > .button-small { padding-inline: 9px; }
+  .section-wrap, .athlete-dashboard-main { width: calc(100% - 28px); }
+  .hero h1 { font-size: clamp(44px, 12vw, 58px); }
+  .hero-actions { align-items: flex-start; }
+  .hero-actions .button { gap: 9px; }
+  .fight-booking { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fight-booking label:first-child { grid-column: span 2; }
+  .fight-submit { grid-column: span 2; }
+  .performance-card-top { align-items: flex-start; }
+  .performance-card-top > strong { max-width: 58%; font-size: 11px; line-height: 1.5; text-align: end; }
+  .performance-card-top > strong small { font-size: 8px; }
+  .score-change { line-height: 1.6; }
+}
+@media (hover: none) {
+  .button:hover, .class-card:hover { transform: none; }
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171c19">
+  <title>Ali's Coach Dashboard | Ali Boxing Club</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/coach.js" defer></script>
+</head>
+<body class="coach-page">
+  <header class="coach-header">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-name">ALI<span> BOXING CLUB</span></span>
+    </a>
+    <div class="header-actions">
+      <button class="language-switch" id="coach-language" type="button" aria-label="Switch language">EN</button>
+      <button class="button button-outline button-small hidden" id="coach-logout" type="button" data-fa="خروج" data-en="Sign out">خروج</button>
+    </div>
+  </header>
+
+  <main class="coach-main">
+    <section class="coach-login-panel" id="coach-login-panel">
+      <p class="eyebrow" data-fa="دسترسی امن مربی" data-en="SECURE COACH ACCESS">دسترسی امن مربی</p>
+      <h1 data-fa="ورود علی" data-en="Ali's sign in">ورود علی</h1>
+      <p class="coach-muted" data-fa="با شماره مربی و رمز عبور وارد شوید." data-en="Sign in with the coach phone number and password.">با شماره مربی و رمز عبور وارد شوید.</p>
+      <form id="coach-login-form" class="coach-login-form">
+        <label for="coach-phone" data-fa="شماره مربی" data-en="Coach phone number">شماره مربی</label>
+        <input id="coach-phone" name="phone" type="tel" inputmode="tel" autocomplete="username" value="09386211388" dir="ltr" maxlength="20" required>
+        <label for="coach-password" data-fa="رمز عبور" data-en="Password">رمز عبور</label>
+        <input id="coach-password" name="password" type="password" autocomplete="current-password" maxlength="128" required>
+        <p class="coach-feedback" id="coach-login-feedback" role="alert" aria-live="polite"></p>
+        <button class="button button-primary full-button" type="submit" data-fa="ورود به پنل" data-en="Sign in to dashboard">ورود به پنل</button>
+      </form>
+    </section>
+
+    <section class="coach-workspace hidden" id="coach-workspace">
+      <div class="coach-title-row">
+        <div>
+          <p class="eyebrow" data-fa="پنل اختصاصی مربی" data-en="PRIVATE COACH DASHBOARD">پنل اختصاصی مربی</p>
+          <h1><span data-fa="سلام، علی" data-en="Welcome, Ali">سلام، علی</span></h1>
+          <p class="coach-muted" data-fa="ورزشکار را با نام یا شماره تلفن پیدا کنید." data-en="Find an athlete by name or phone number.">ورزشکار را با نام یا شماره تلفن پیدا کنید.</p>
+        </div>
+        <a class="button button-outline button-small" href="/" data-fa="بازگشت به سایت" data-en="Back to website">بازگشت به سایت</a>
+      </div>
+
+      <div class="coach-grid">
+        <section class="coach-panel coach-athletes-panel" aria-labelledby="athletes-title">
+          <div class="coach-panel-heading">
+            <h2 id="athletes-title" data-fa="ورزشکاران" data-en="Athletes">ورزشکاران</h2>
+            <span class="coach-count" id="athlete-count">۰</span>
+          </div>
+          <label class="coach-search-label" for="athlete-search" data-fa="جستجو" data-en="Search">جستجو</label>
+          <input id="athlete-search" type="search" autocomplete="off" placeholder="نام یا شماره تلفن" data-placeholder-fa="نام یا شماره تلفن" data-placeholder-en="Name or phone number">
+          <label class="coach-search-label coach-filter-label" for="athlete-filter" data-fa="وضعیت اشتراک" data-en="Subscription status">وضعیت اشتراک</label>
+          <select id="athlete-filter">
+            <option value="all" data-fa="همه ورزشکاران" data-en="All athletes">همه ورزشکاران</option>
+            <option value="active" data-fa="اشتراک فعال" data-en="Active subscription">اشتراک فعال</option>
+            <option value="expired" data-fa="اشتراک پایان‌یافته" data-en="Expired subscription">اشتراک پایان‌یافته</option>
+            <option value="none" data-fa="بدون اشتراک" data-en="No subscription">بدون اشتراک</option>
+          </select>
+          <p class="coach-feedback" id="athlete-list-feedback" role="status" aria-live="polite"></p>
+          <div class="coach-athlete-list" id="coach-athlete-list"></div>
+        </section>
+
+        <section class="coach-panel coach-detail-panel" id="athlete-detail-panel" aria-labelledby="athlete-detail-title">
+          <div class="coach-empty" id="coach-empty-state">
+            <span aria-hidden="true">◎</span>
+            <p data-fa="برای دیدن اطلاعات و ثبت ارزیابی، یک ورزشکار را انتخاب کنید." data-en="Select an athlete to view their details and enter an assessment.">برای دیدن اطلاعات و ثبت ارزیابی، یک ورزشکار را انتخاب کنید.</p>
+          </div>
+          <div id="coach-athlete-detail" class="hidden">
+            <div class="coach-panel-heading coach-athlete-heading">
+              <div>
+                <p class="eyebrow" data-fa="پرونده ورزشکار" data-en="ATHLETE PROFILE">پرونده ورزشکار</p>
+                <h2 id="athlete-detail-title"></h2>
+                <p class="coach-muted" id="athlete-phone"></p>
+                <p class="coach-last-updated hidden" id="athlete-last-updated"></p>
+              </div>
+            </div>
+            <div class="coach-subscriptions" id="athlete-subscriptions"></div>
+            <form id="coach-assessment-form" class="coach-assessment-form">
+              <section class="coach-assessment-section">
+                <div class="coach-section-heading">
+                  <div><h3 data-fa="ارزیابی مهارت‌ها" data-en="Skill assessment">ارزیابی مهارت‌ها</h3><p class="coach-muted" data-fa="برای هر معیار یک سطح را انتخاب کنید." data-en="Choose one rating for each skill.">برای هر معیار یک سطح را انتخاب کنید.</p></div>
+                  <span class="coach-section-mark" aria-hidden="true">01</span>
+                </div>
+              <div class="coach-score-grid">
+                <label><span data-fa="استقامت" data-en="Cardio">استقامت</span><select name="cardio"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+                <label><span data-fa="قدرت" data-en="Power">قدرت</span><select name="power"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+                <label><span data-fa="سرعت" data-en="Speed">سرعت</span><select name="speed"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+                <label><span data-fa="تکنیک" data-en="Technique">تکنیک</span><select name="technique"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+                <label><span data-fa="دفاع" data-en="Defense">دفاع</span><select name="defense"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+                <label><span data-fa="جا‌به‌جایی پا" data-en="Footwork">جا‌به‌جایی پا</span><select name="footwork"><option value="" data-fa="انتخاب سطح" data-en="Choose rating">انتخاب سطح</option><option value="25" data-fa="۲۵٪ – خیلی بد" data-en="25% – Very Bad">۲۵٪ – خیلی بد</option><option value="50" data-fa="۵۰٪ – متوسط" data-en="50% – Average">۵۰٪ – متوسط</option><option value="75" data-fa="۷۵٪ – خوب" data-en="75% – Good">۷۵٪ – خوب</option><option value="99" data-fa="۹۹٪ – استثنایی" data-en="99% – Exceptional">۹۹٪ – استثنایی</option></select></label>
+              </div>
+              </section>
+              <section class="coach-assessment-section coach-message-section">
+                <div class="coach-section-heading">
+                  <div><h3 data-fa="پیام مربی" data-en="Coach message">پیام مربی</h3><p class="coach-muted" data-fa="این پیام در داشبورد همین ورزشکار نمایش داده می‌شود." data-en="This message appears in this athlete's dashboard.">این پیام در داشبورد همین ورزشکار نمایش داده می‌شود.</p></div>
+                  <span class="coach-section-mark" aria-hidden="true">02</span>
+                </div>
+                <label><span data-fa="پیام برای ورزشکار" data-en="Message for athlete">پیام برای ورزشکار</span><textarea name="message" rows="3" maxlength="1000"></textarea></label>
+              </section>
+              <p class="coach-feedback" id="coach-save-feedback" role="status" aria-live="polite"></p>
+              <button class="button button-primary full-button" id="coach-save-button" type="submit" data-fa="ذخیره ارزیابی و پیام" data-en="Save assessment & message">ذخیره ارزیابی و پیام</button>
+            </form>
+            <button class="button button-outline full-button hidden" id="coach-edit-assessment" type="button" data-fa="ویرایش ارزیابی" data-en="Edit assessment">ویرایش ارزیابی</button>
+            <p class="coach-feedback coach-save-result" id="coach-save-result" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
