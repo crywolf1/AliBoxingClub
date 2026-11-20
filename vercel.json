@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index?__vapi_path=:path*" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
     { "source": "/booking", "destination": "/booking.html" },
     { "source": "/coach", "destination": "/coach.html" }
